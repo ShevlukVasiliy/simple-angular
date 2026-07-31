@@ -1,12 +1,15 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { Component } from '@angular/core';
+import { PlusFivePipe } from './plus-five-pipe';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [DatePipe, PlusFivePipe],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('simple');
+  protected array = ['row 1', 'row 2', 'row 3', 'row 4'];
+  protected number = 123;
+  protected date = new Date();
 }
