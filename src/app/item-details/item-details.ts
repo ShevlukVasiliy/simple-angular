@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-item-details',
-  imports: [RouterOutlet],
   templateUrl: './item-details.html',
   styleUrl: './item-details.css',
 })
