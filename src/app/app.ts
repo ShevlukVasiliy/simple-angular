@@ -1,11 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { MatTabsModule } from '@angular/material/tabs';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { PageModule } from './page/page-module';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, MatTabsModule, RouterLink, PageModule, RouterLinkActive],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('simple');
