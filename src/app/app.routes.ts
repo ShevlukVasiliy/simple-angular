@@ -22,13 +22,15 @@ export const routes: Routes = [
   {
     path: 'item/:id',
     component: Item,
-  },
-  {
-    path: 'item/:id/details',
-    component: ItemDetails,
-  },
-  {
-    path: 'item/:id/list',
-    component: ItemList,
+    children: [
+      {
+        path: 'details',
+        component: ItemDetails,
+      },
+      {
+        path: 'list',
+        component: ItemList,
+      },
+    ],
   },
 ];
