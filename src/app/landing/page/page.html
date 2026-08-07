@@ -1,0 +1,22 @@
+<div class='flex flex-col'>
+  <app-navbar></app-navbar>
+
+  <app-main>
+    <app-block-head title='Block 1'></app-block-head>
+    <app-block-content text='content of block 1'></app-block-content>
+
+    <app-block-head title='Block 2'></app-block-head>
+    <app-block-content direction="left" text='content of block 2'></app-block-content>
+
+    <app-block-head title='Block 3'></app-block-head>
+    <app-block-content text='content of block 3'></app-block-content>
+
+    <app-block-head title='ng-bootstrap demo'></app-block-head>
+    <button (click)="setIsOpenBootstrapDemo()">@if(isOpenBootstrapDemo) { {{'close'}} } @if(isOpenBootstrapDemo !== true) { {{'open'}} } bootstrap demo</button>
+    @if (isOpenBootstrapDemo) {
+      <app-bootstrap-demo></app-bootstrap-demo>
+    }
+  </app-main>
+
+  <app-footer></app-footer>
+</div>
