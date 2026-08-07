@@ -12,7 +12,7 @@
     <app-block-content text='content of block 3'></app-block-content>
 
     <app-block-head title='ng-bootstrap demo'></app-block-head>
-    <button (click)="setIsOpenBootstrapDemo()">@if(isOpenBootstrapDemo) { {{'close'}} } @if(isOpenBootstrapDemo !== true) { {{'open'}} } bootstrap demo</button>
+    <button (click)="setIsOpenBootstrapDemo()" class="border-1 border-cyan-500 mb-8">@if(isOpenBootstrapDemo) { {{'close'}} } @if(isOpenBootstrapDemo !== true) { {{'open'}} } bootstrap demo</button>
     @if (isOpenBootstrapDemo) {
       <app-bootstrap-demo></app-bootstrap-demo>
     }
