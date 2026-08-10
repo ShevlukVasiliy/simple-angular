@@ -1,2 +1,7 @@
-
-<router-outlet />
+@for (r of response.response; track r.id) {
+  <p>userId: {{r.userId}};
+    id: {{r.id}};
+    title: {{r.title}};
+    completed: <input type='checkbox' [checked]='r.completed'/>
+  </p>
+}
