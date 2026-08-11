@@ -1,2 +1,72 @@
+<div class='container'>
 
-<router-outlet />
+  <!--
+    form
+  -->
+  <form class='form' [formGroup]="form" (ngSubmit)='submit()'>
+    <div class='form-element'>
+      <label for='title'>Название книги</label>
+      <input name='title' id='title' type='text' formControlName="bookTitle" />
+      @if (form.get('bookTitle')?.hasError('required') && form.get('bookTitle')?.touched) {
+        <div class='error'>
+          <p>Это поле обязательное к заполнению</p>
+        </div>
+      }
+      @if (form.get('bookTitle')?.touched && form.get('bookTitle')?.hasError('minlength')) {
+        <div class='error'>
+          <p>Минимальная длина поля – 2 буквы</p>
+        </div>
+      }
+      @if (form.get('bookTitle')?.touched && form.get('bookTitle')?.hasError('pattern')) {
+        <div class='error'>
+          <p>Разрешены только буквы русского алфавита</p>
+        </div>
+      }
+    </div>
+    <div class='form-element'>
+      <label for='author'>Автор</label>
+      <input name='author' id='author' type='text' formControlName="author" />
+      @if (form.get('author')?.hasError('required') && form.get('author')?.touched) {
+        <div class='error'>
+          <p>Это поле обязательное к заполнению</p>
+        </div>
+      }
+      @if (form.get('author')?.touched && form.get('author')?.hasError('minlength')) {
+        <div class='error'>
+          <p>Минимальная длина поля – 2 буквы</p>
+        </div>
+      }
+      @if (form.get('author')?.touched && form.get('author')?.hasError('pattern')) {
+        <div class='error'>
+          <p>Разрешены только буквы русского алфавита</p>
+        </div>
+      }
+    </div>
+    <button type="submit" [disabled]='form.invalid'>Добавить книгу</button>
+  </form>
+
+  <br>
+
+  <!--
+    table
+  -->
+  <table>
+    <thead>
+      <tr>
+        <th class='w-10'>№</th>
+        <th class='w-75'>Название книги</th>
+        <th class='w-50'>Автор</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (book of books.books; track book) {
+        <tr>
+          <td>{{$index + 1}}</td>
+          <td>{{book.bookTitle}}</td>
+          <td>{{book.author}}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+</div>
