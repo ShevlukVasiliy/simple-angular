@@ -1,2 +1,18 @@
+<button (click)='isOrderedRun() ? dontAddOrdered() : addOrdered()'>{{isOrderedRun() ? "остановить" : "запустить"}} 1 счетчик (колонка 1)</button>
+<br />
+<button (click)='isRandomRun() ? dontAddRandom() : addRandom()'>{{isRandomRun() ? "остановить" : "запустить"}} 2 счетчик (колонка 2)</button>
 
-<router-outlet />
+<div class='inline'>
+  <div>
+    <div>1 колонка</div>
+    @for(num of orderedNumbers(); track $index) {
+      <div>{{num}}</div>
+    }
+  </div>
+  <div>
+    <div>2 колонка</div>
+    @for(num of randomNumbers(); track $index) {
+      <div>{{num}}</div>
+    }
+  </div>
+</div>

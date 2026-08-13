@@ -1,0 +1,7 @@
+.inline {
+  display: flex;
+}
+
+.inline > * {
+  padding: 0.5rem;
+}
