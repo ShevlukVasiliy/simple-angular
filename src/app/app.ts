@@ -1,35 +1,50 @@
 import { Component } from '@angular/core';
-import { BooksService } from './books-service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { ResponseService } from './response-service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  imports: [ReactiveFormsModule],
   styleUrl: './app.css',
+  imports: [RouterOutlet, RouterLink],
 })
 export class App {
-  public form: FormGroup;
+  constructor(public responseService: ResponseService) {}
 
-  constructor(
-    public books: BooksService,
-    private fb: FormBuilder,
-  ) {
-    this.form = this.fb.group({
-      bookTitle: [
-        '',
-        [Validators.required, Validators.pattern(/^[а-яА-ЯёË]+$/), Validators.minLength(2)],
-      ],
-      author: [
-        '',
-        [Validators.required, Validators.pattern(/^[а-яА-ЯёË]+$/), Validators.minLength(2)],
-      ],
+  button1Action() {
+    this.responseService.getFirstAction().subscribe({
+      next: (d) => console.log('First button action:', d),
     });
   }
 
-  submit() {
-    const { bookTitle, author } = this.form.value;
-    this.books.addBook(bookTitle, author);
-    this.form.reset();
+  button2Action() {
+    this.responseService.getSecondAction().subscribe({
+      next: (d) => console.log('Second button action:', d),
+    });
+  }
+
+  button3Action() {
+    this.responseService.getThirdAction().subscribe({
+      next: (d) => console.log('Third button action:', d),
+    });
+  }
+
+  button4Action() {
+    this.responseService.getFourthAction().subscribe({
+      next: (d) => console.log('Fourth button action:', d),
+      error: (err) => console.error('Error in button 4 action:', err),
+    });
+  }
+
+  button5Action() {
+    this.responseService.getFifthAction().subscribe({
+      next: (d) => console.log('Fifth button action:', d),
+    });
+  }
+
+  button6Action() {
+    this.responseService.getSixthAction().subscribe({
+      next: (d) => console.log('Sixth button action:', d),
+    });
   }
 }

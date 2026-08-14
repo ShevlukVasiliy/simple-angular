@@ -1,42 +1,13 @@
 @reference "tailwindcss";
-.container {
-  @apply bg-black text-white min-h-screen p-8 min-w-full;
-}
-.error {
-  @apply border-3 border-red-900 bg-red-200 text-red-900 rounded p-1 font-bold;
-}
-.form {
-  @apply flex flex-col gap-2 w-50;
-}
-.form-element {
-  @apply flex flex-col gap-1;
+
+.wrapper {
+  @apply bg-black text-white h-screen flex flex-col p-8 gap-1;
 }
 
-table {
-  @apply table-auto;
-}
-thead {
-  @apply border-b-3 border-gray-600;
-}
-tbody {
-  @apply divide-y-2 divide-gray-600;
-}
-td,
-th {
-  @apply px-1;
-}
-tbody tr {
-  @apply hover:bg-gray-100 hover:text-black;
-}
-th {
-  @apply text-left;
-}
-label {
-  @apply font-bold;
-}
-input {
-  @apply w-50 outline-none border-2 border-gray-600 hover:border-gray-500 duration-300 focus-visible:border-gray-300 rounded px-1;
-}
 button {
-  @apply p-2 outline-none bg-gray-900 rounded enabled:hover:bg-gray-800 border-2 border-gray-900 focus-visible:border-2 focus-visible:border-gray-300 duration-300 disabled:bg-gray-300 disabled:text-gray-900;
+  @apply text-left px-2 py-1 border-1 rounded w-max hover:bg-gray-800 duration-150 active:bg-gray-900;
+}
+
+.seven {
+  @apply underline text-blue-600;
 }
