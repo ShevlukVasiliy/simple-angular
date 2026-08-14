@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnDestroy, signal } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 
 @Component({
@@ -6,7 +6,7 @@ import { interval, Subscription } from 'rxjs';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
+export class App implements OnDestroy {
   public randomNumbers = signal<string[]>([]);
   public orderedNumbers = signal<number[]>([]);
 
@@ -53,5 +53,9 @@ export class App {
 
   public genRandomNumber(): number {
     return Math.floor(Math.random() * 1000);
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }
