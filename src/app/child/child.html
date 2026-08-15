@@ -1,0 +1,23 @@
+<ng-container *ngTemplateOutlet="table"></ng-container>
+
+<ng-template #table>
+  <table>
+    <thead>
+      <tr>
+        <th>№</th>
+        <th>автор</th>
+        <th>заказ</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of orders; track item.id) {
+        <tr>
+          <td>{{item.orderNumber}}</td>
+          <td>{{item.authorName}}</td>
+          <td>{{item.order.name}}</td>
+        </tr>
+      }
+
+    </tbody>
+  </table>
+</ng-template>
