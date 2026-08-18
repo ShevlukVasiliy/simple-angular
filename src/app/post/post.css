@@ -1,0 +1,5 @@
+@reference 'tailwindcss';
+
+button {
+  @apply px-1 border-2 rounded text-blue-400 border-blue-400 hover:border-blue-500 text-white active:border-blue-600;
+}

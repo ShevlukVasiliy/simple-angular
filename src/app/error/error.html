@@ -1,0 +1,7 @@
+<p>У вас нет доступа к этой странице</p>
+@if (userService.role() === 'user') {
+  <p>Ваша роль: {{userService.role()}}; необходимая роль: admin</p>
+}
+<a routerLink='/'>
+  На главную
+</a>

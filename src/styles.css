@@ -1,3 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+body {
+  @apply bg-black h-screen text-white;
+}
+
+input,
+textarea,
+select,
+details {
+  outline: none;
+}
+
+a {
+  @apply underline text-blue-400;
+}

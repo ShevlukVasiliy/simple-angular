@@ -1,13 +1,11 @@
 @reference "tailwindcss";
 
-.wrapper {
-  @apply bg-black text-white h-screen flex flex-col p-8 gap-1;
+header,
+main,
+footer {
+  @apply p-4;
 }
 
-button {
-  @apply text-left px-2 py-1 border-1 rounded w-max hover:bg-gray-800 duration-150 active:bg-gray-900;
-}
-
-.seven {
-  @apply underline text-blue-600;
+nav {
+  @apply flex gap-x-2;
 }

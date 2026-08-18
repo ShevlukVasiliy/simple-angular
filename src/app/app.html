@@ -1,14 +1,22 @@
-<div class='wrapper'>
-  <button (click)="button1Action()">1. get</button>
-  <button (click)="button2Action()">2. get; postId=1</button>
-  <button (click)="button3Action()">3. post; empty body</button>
-  <button (click)="button4Action()">4. get; with error handlers</button>
-  <button (click)="button5Action()">5. get; headers: {{'{"X-Test": 1}'}}; type = 'text'</button>
-  <button (click)="button6Action()">6. delete post 1</button>
-  <button class='seven' routerLink="/seven">7. resolve route</button>
+<header class='border-b-blue-400 border-2 border-transparent'>
+  <nav class='flex justify-between'>
+    <div class='flex gap-x-2'>
+      <a routerLink="/">home</a>
+      <a routerLink="/posts">posts</a>
+    </div>
+    @if (isAccessed()) {
+      <button [disabled]='!user.canChangeRole()' (click)='user.toggleRole()' class='disabled:text-neutral-600'>
+        Сменить роль на @if (user.role() === 'user') {
+            Администратора
+          } @else {
+            Пользователя
+          }
+      </button>
 
-  <br/>
+    }
+  </nav>
+</header>
 
+<main>
   <router-outlet />
-</div>
-
+</main>

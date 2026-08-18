@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { ResponseService } from './response-service';
+import { Component, effect, inject, signal } from '@angular/core';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { UserService } from './user-service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,42 +10,22 @@ import { ResponseService } from './response-service';
   imports: [RouterOutlet, RouterLink],
 })
 export class App {
-  constructor(public responseService: ResponseService) {}
+  public isAccessed = signal(true);
+  public router = inject(Router);
 
-  button1Action() {
-    this.responseService.getFirstAction().subscribe({
-      next: (d) => console.log('First button action:', d),
-    });
-  }
-
-  button2Action() {
-    this.responseService.getSecondAction().subscribe({
-      next: (d) => console.log('Second button action:', d),
-    });
-  }
-
-  button3Action() {
-    this.responseService.getThirdAction().subscribe({
-      next: (d) => console.log('Third button action:', d),
-    });
-  }
-
-  button4Action() {
-    this.responseService.getFourthAction().subscribe({
-      next: (d) => console.log('Fourth button action:', d),
-      error: (err) => console.error('Error in button 4 action:', err),
-    });
-  }
-
-  button5Action() {
-    this.responseService.getFifthAction().subscribe({
-      next: (d) => console.log('Fifth button action:', d),
-    });
-  }
-
-  button6Action() {
-    this.responseService.getSixthAction().subscribe({
-      next: (d) => console.log('Sixth button action:', d),
+  constructor(public user: UserService) {
+    effect(() => {
+      this.router.events
+        .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+        .subscribe((event: NavigationEnd) => {
+          const regex = /^\/posts\/[^\/]+\/update$/;
+          const isMatch = regex.test(event.urlAfterRedirects || event.url);
+          if (isMatch) {
+            this.isAccessed.update(() => false);
+            return;
+          }
+          this.isAccessed.update(() => true);
+        });
     });
   }
 }

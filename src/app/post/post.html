@@ -1,0 +1,27 @@
+<div class='flex gap-x-1 justify-between'>
+  <a routerLink='/posts'>Назад</a>
+  @if (user.role() === 'admin') {
+    <button routerLink='update'>
+      Редактировать
+    </button>
+  }
+</div>
+
+@if (isLoading()) {
+  <p>
+    Загрузка
+  </p>
+}
+
+@else if (hasError()) {
+  <p>
+    При загрузке постов возникла ошибка.
+  </p>
+  <button>
+    Попробовать снова
+  </button>
+}
+@else if (post(); as p) {
+  <h1 class='text-xl'>{{p?.title}}</h1>
+  <p>{{p?.body}}</p>
+}

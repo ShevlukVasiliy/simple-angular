@@ -1,0 +1,30 @@
+<div class='flex gap-x-1 justify-between'>
+  <a routerLink='/posts'>Назад</a>
+</div>
+
+@if (isLoading()) {
+  <p>
+    Загрузка
+  </p>
+}
+
+@else if (hasError()) {
+  <p>
+    При загрузке постов возникла ошибка.
+  </p>
+  <button>
+    Попробовать снова
+  </button>
+}
+@else if (post(); as p) {
+  <form class='flex flex-col gap-1' [formGroup]='form'>
+    <label for='title'>Заголовок</label>
+    <input formControlName="title" id='title' [value]='p?.title' />
+    <label for='body'>Содержание</label>
+    <textarea formControlName="body" id='body' [value]="p?.body"></textarea>
+    <div class='flex gap-4'>
+      <button (click)='cancelUpdate()' class='text-red-600'>Отмена</button>
+      <button (click)='update()' class='text-green-600'>Сохранить</button>
+    </div>
+  </form>
+}
