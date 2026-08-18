@@ -19,12 +19,24 @@
 @else if (post(); as p) {
   <form class='flex flex-col gap-1' [formGroup]='form'>
     <label for='title'>Заголовок</label>
-    <input formControlName="title" id='title' [value]='p?.title' />
+    <input #title formControlName="title" id='title' [value]='p?.title' />
+    @if (form.get('title')?.invalid && form.get('title')?.touched && form.get('title')?.hasError('minlength')) {
+      <p class='text-red-500'>Минимальная длина поля 2 символа</p>
+    }
+    @if (form.get('title')?.invalid && form.get('title')?.hasError('required')) {
+      <p class='text-red-500'>Обязательное поле</p>
+    }
     <label for='body'>Содержание</label>
-    <textarea formControlName="body" id='body' [value]="p?.body"></textarea>
+    <textarea #body formControlName="body" id='body' [value]="p?.body"></textarea>
+    @if (form.get('body')?.invalid && form.get('body')?.touched && form.get('body')?.hasError('minlength')) {
+      <p class='text-red-500'>Минимальная длина поля 2 символа</p>
+    }
+    @if (form.get('body')?.invalid && form.get('body')?.hasError('required')) {
+      <p class='text-red-500'>Обязательное поле</p>
+    }
     <div class='flex gap-4'>
       <button (click)='cancelUpdate()' class='text-red-600'>Отмена</button>
-      <button (click)='update()' class='text-green-600'>Сохранить</button>
+      <button (click)='update()' [disabled]='form.invalid' class='text-green-600'>Сохранить</button>
     </div>
   </form>
 }

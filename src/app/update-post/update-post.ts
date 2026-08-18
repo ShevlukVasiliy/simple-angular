@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PostsService } from '../posts-service';
 import { Post } from '../types/post';
@@ -20,8 +20,8 @@ export class UpdatePost {
     title: FormControl<string | null>;
     body?: FormControl<string | null>;
   }>({
-    title: new FormControl(''),
-    body: new FormControl(''),
+    title: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    body: new FormControl('', [Validators.required, Validators.minLength(2)]),
   });
 
   constructor(
