@@ -1,0 +1,22 @@
+<form [formGroup]='form' class='flex gap-x-4'>
+  <div class='flex gap-y-1 flex-col'>
+    <input formControlName='task' placeholder='Введите вашу задачу' class='p-1 border-2 border-blue-500 rounded focus:border-blue-600' />
+    @if (form.get("task")?.invalid && form.get("task")?.touched && form.get("task")?.hasError('pattern')) {
+      <div class='p-1 border-2 border-red-500 rounded'>
+        Разрешены только латинские символы
+      </div>
+    }
+    @if (form.get("task")?.invalid && form.get("task")?.touched && form.get("task")?.hasError('required')) {
+      <div class='p-1 border-2 border-red-500 rounded'>
+        Это поле обязательное к заполнению
+      </div>
+    }
+    @if (form.get("task")?.invalid && form.get("task")?.hasError("minlength")) {
+      <div class='p-1 border-2 border-red-500 rounded'>
+        Минимальная длина поля 2 символа
+      </div>
+    }
+  </div>
+
+  <button (click)='addTask()' [disabled]='form.invalid' class='p-1 border-2 border-blue-500 rounded h-[max-content] enabled:hover:border-blue-600 disabled:bg-neutral-800'>Добавить</button>
+</form>

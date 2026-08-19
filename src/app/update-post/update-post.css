@@ -1,6 +1,0 @@
-@reference 'tailwindcss';
-
-input,
-textarea {
-  @apply border-2 border-blue-400 rounded px-1 max-w-150 focus:border-blue-500;
-}

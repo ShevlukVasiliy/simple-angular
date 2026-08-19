@@ -3,7 +3,7 @@
 @import 'tailwindcss';
 
 body {
-  @apply bg-black h-screen text-white;
+  @apply bg-neutral-900 h-screen text-white p-4;
 }
 
 input,

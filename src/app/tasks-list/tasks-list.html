@@ -1,0 +1,9 @@
+<div class='flex flex-col gap-4'>
+  @for (task of tasks() | keyvalue; track task.value.id) {
+  <label class='flex gap-2 align-center'>
+      <input (click)='completeTask(task.value.id, !task.value.status)' type='checkbox' [checked]='task.value.status' />
+      <span [ngClass]="{'line-through': task.value.status}">{{task.value.text}}</span>
+      <button (click)='deleteTask(task.value.id)' class='border-1 border-blue-500 px-2 xy-1 rounded'>удалить</button>
+    </label>
+  }
+</div>
