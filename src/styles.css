@@ -4,10 +4,13 @@ body {
 }
 
 :root {
+  font-size: 1em;
+  box-sizing: border-box;
+
   /* font */
   /* size */
   --font-size-xs: 14px;
-  --font-size-x: 16px;
+  --font-size-s: 16px;
   --font-size-md: 18px;
   --font-size-lg: 24px;
   --font-size-xl: 36px;
@@ -16,8 +19,19 @@ body {
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 600;
+  --font-weight-extrabold: 800;
 
   /* colors */
   --app-blue: #e7fafe;
   --app-purple: #3a3395;
+  --app-gray: #6b7280;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
 }

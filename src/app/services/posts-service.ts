@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BASE_API_URL } from './app';
-import { CreatePostBody } from './interface/posts/create-post';
-import { CreateCommentBody } from './interface/posts/create-comment';
-import { UpdatePostBody } from './interface/posts/update-post';
+import { BASE_API_URL } from '../app';
+import { CreatePostBody } from '../interface/posts/create-post';
+import { CreateCommentBody } from '../interface/posts/create-comment';
+import { UpdatePostBody } from '../interface/posts/update-post';
 
 @Injectable({
   providedIn: 'root',

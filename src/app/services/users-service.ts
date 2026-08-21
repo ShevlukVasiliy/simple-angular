@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RegistrationBody } from './interface/users/registration';
-import { SignBody } from './interface/users/sign';
-import { CreateUserBody } from './interface/users/create-user';
-import { UpdateUserBody } from './interface/users/update-user';
-import { BASE_API_URL } from './app';
+import { RegistrationBody } from '../interface/users/registration';
+import { SignBody } from '../interface/users/sign';
+import { CreateUserBody } from '../interface/users/create-user';
+import { UpdateUserBody } from '../interface/users/update-user';
+import { BASE_API_URL } from '../app';
 
 @Injectable({
   providedIn: 'root',
