@@ -8,3 +8,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css',
 })
 export class App {}
+
+export var BASE_API_URL = 'https://evo-academy.wckz.dev';

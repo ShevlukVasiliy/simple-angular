@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
+import { BaseLayout } from '../../layout/base-layout/base-layout';
 
 @Component({
   selector: 'app-recipes',
-  imports: [],
+  imports: [BaseLayout],
   templateUrl: './recipes.html',
   styleUrl: './recipes.css',
 })

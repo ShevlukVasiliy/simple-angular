@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
+import { BaseLayout } from '../../layout/base-layout/base-layout';
 
 // TODO: заменить на реальные данные из API после Swagger
 const MOCK_RECIPE = {
@@ -10,7 +11,7 @@ const MOCK_RECIPE = {
 
 @Component({
   selector: 'app-recipe',
-  imports: [],
+  imports: [BaseLayout],
   templateUrl: './recipe.html',
   styleUrl: './recipe.css',
 })

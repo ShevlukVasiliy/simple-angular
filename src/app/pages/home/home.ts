@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
+import { BaseLayout } from '../../layout/base-layout/base-layout';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [BaseLayout],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
