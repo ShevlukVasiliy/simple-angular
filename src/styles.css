@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+:root {
+  /* font */
+  /* size */
+  --font-size-xs: 14px;
+  --font-size-x: 16px;
+  --font-size-md: 18px;
+  --font-size-lg: 24px;
+  --font-size-xl: 36px;
+  --font-size-2xl: 64px;
+  /* weight */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
+
+  /* colors */
+  --app-blue: #e7fafe;
+  --app-purple: #3a3395;
+}
