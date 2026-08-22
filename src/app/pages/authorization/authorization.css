@@ -1,0 +1,107 @@
+.container {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+h1 {
+  font-size: 30px;
+  font-weight: var(--font-weight-extrabold);
+  text-align: center;
+}
+
+.form-container {
+  max-width: 488px;
+  width: 100%;
+  border-radius: 0.5rem;
+  box-shadow:
+    0 4px 4px -1px rgba(0, 0, 0, 0.2),
+    0 4px 4px -1px rgba(0, 0, 0, 0.1);
+  padding: 2rem 2.5rem;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-field label {
+  font-size: var(--font-size-xs);
+  color: #374151;
+}
+
+/* Обертка фиксирует ширину и служит якорем для иконки */
+.input-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.form-field input[type='text'],
+.form-field input[type='password'],
+.input-wrapper input {
+  width: 100%;
+  border: 1px #d1d5db solid;
+  border-radius: 6px;
+  padding: 9px 36px 9px 13px; /* 36px справа, чтобы текст не залезал под svg */
+  outline: none;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  color: black;
+}
+
+.form-field input.error {
+  border: 1px #fca5a5 solid;
+  color: #7f1d1d;
+}
+
+/* Иконка центрируется ровно по высоте инпута */
+.exl-mark {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: block;
+  pointer-events: none; /* Клик сквозь иконку попадает в инпут */
+}
+
+.exl-mark.hide {
+  display: none;
+}
+
+.submit-button {
+  background-color: var(--app-purple);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: 9px 17px;
+  border-radius: 6px;
+  border: none;
+  color: white;
+}
+
+.row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+a {
+  color: var(--app-purple);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: var(--font-size-s);
+  font-weight: var(--font-weight-medium);
+}
