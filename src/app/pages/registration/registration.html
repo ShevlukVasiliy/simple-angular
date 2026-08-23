@@ -14,6 +14,11 @@
               <path fill-rule="evenodd" clip-rule="evenodd" d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z" fill="#EF4444"/>
             </svg>
           </div>
+            @if (form.get("username")?.hasError('required') && form.get("username")?.touched) {
+              <div class='error-block'>
+                Это поле обязательное
+              </div>
+            }
         </div>
 
         <div class='form-field'>
@@ -24,6 +29,16 @@
               <path fill-rule="evenodd" clip-rule="evenodd" d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z" fill="#EF4444"/>
             </svg>
           </div>
+            @if (form.get("password")?.hasError('required') && form.get("password")?.touched) {
+              <div class='error-block'>
+                Это поле обязательное
+              </div>
+            }
+            @if (form.get("password")?.invalid && form.get("password")?.touched && form.get('password')?.hasError('minlength')) {
+              <div class='error-block'>
+                Минимальная длина пароля – 5 символов
+              </div>
+            }
         </div>
 
         <div class='form-field'>
@@ -34,6 +49,11 @@
               <path fill-rule="evenodd" clip-rule="evenodd" d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z" fill="#EF4444"/>
             </svg>
           </div>
+            @if (form.get("firstName")?.hasError('required') && form.get("firstName")?.touched) {
+              <div class='error-block'>
+                Это поле обязательное
+              </div>
+            }
         </div>
 
         <div class='form-field'>
@@ -44,6 +64,11 @@
               <path fill-rule="evenodd" clip-rule="evenodd" d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z" fill="#EF4444"/>
             </svg>
           </div>
+            @if (form.get("lastName")?.hasError('required') && form.get("lastName")?.touched) {
+              <div class='error-block'>
+                Это поле обязательное
+              </div>
+            }
         </div>
 
         <div class='form-field'>
@@ -54,6 +79,11 @@
               <path fill-rule="evenodd" clip-rule="evenodd" d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z" fill="#EF4444"/>
             </svg>
           </div>
+            @if (form.get("middleName")?.hasError('required') && form.get("middleName")?.touched) {
+              <div class='error-block'>
+                Это поле обязательное
+              </div>
+            }
         </div>
 
         <button (click)='submit()' [disabled]='form.invalid' type='button' class='submit-button'>Зарегистрироваться</button>
