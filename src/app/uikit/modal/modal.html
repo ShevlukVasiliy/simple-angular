@@ -1,1 +1,24 @@
-<p>modal works!</p>
+<div class="modal-box">
+  @if (data.title) {
+    <header class="modal-header">
+      <h3>{{ data.title }}</h3>
+      <button class="btn-close" (click)="modalRef.close()">&times;</button>
+    </header>
+  }
+
+  <div class="modal-body">
+    @if (data.content) {
+      <p>{{ data.content }}</p>
+    }
+  </div>
+
+  @if (data.buttons && data.buttons.length > 0) {
+    <footer class="modal-footer">
+      @for (btn of data.buttons; track btn.label) {
+        <button [class]="'btn ' + (btn.variant || 'secondary')" (click)="onButtonClick(btn)">
+          {{ btn.label }}
+        </button>
+      }
+    </footer>
+  }
+</div>

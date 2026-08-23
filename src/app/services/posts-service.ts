@@ -17,11 +17,11 @@ export class PostsService {
 
   createPost(body: CreatePostBody) {
     var url = `${this.base}/api/cooking-blog/posts/create`;
-    return this.http.post(url, { ...body, headers: { Authorization: `Bearer ${this.token}` } });
+    return this.http.post(url, body, { headers: { Authorization: `Bearer ${this.token}` } });
   }
   createComment(body: CreateCommentBody, id: string) {
     var url = `${this.base}/api/cooking-blog/posts/${id}/add-comment`;
-    return this.http.post(url, { ...body, headers: { Authorization: `Bearer ${this.token}` } });
+    return this.http.post(url, body, { headers: { Authorization: `Bearer ${this.token}` } });
   }
   getPosts(count?: number) {
     var url = `${this.base}/api/cooking-blog/posts`;
@@ -42,7 +42,11 @@ export class PostsService {
   }
   updatePost(id: string, body: UpdatePostBody) {
     var url = `${this.base}/api/cooking-blog/posts/${id}`;
-    return this.http.patch(url, { ...body, headers: { Authorization: `Bearer ${this.token}` } });
+    return this.http.patch(
+      url,
+      { ...body },
+      { headers: { Authorization: `Bearer ${this.token}` } },
+    );
   }
   deletePost(id: string) {
     var url = `${this.base}/api/cooking-blog/posts/${id}`;

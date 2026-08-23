@@ -26,7 +26,11 @@ export class UsersService {
   }
   updateUser(id: string, body: UpdateUserBody) {
     var url = `${this.base}/api/cooking-blog/users/${id}`;
-    return this.http.patch(url, { ...body, headers: { Authorization: `Bearer ${this.token}` } });
+    return this.http.patch(
+      url,
+      { ...body },
+      { headers: { Authorization: `Bearer ${this.token}` } },
+    );
   }
   deleteUser(id: string) {
     var url = `${this.base}/api/cooking-blog/users/${id}`;
@@ -34,16 +38,20 @@ export class UsersService {
   }
   createUser(body: CreateUserBody) {
     var url = `${this.base}/api/cooking-blog/users/create`;
-    return this.http.post(url, { ...body, headers: { Authorization: `Bearer ${this.token}` } });
+    return this.http.post(
+      url,
+      { ...body, role: 'user', isActive: true },
+      { headers: { Authorization: `Bearer ${this.token}` } },
+    );
   }
-  signUser(body: SignBody) {
+  signUser(body: SignBody, fastSession: boolean) {
     var url = `${this.base}/api/cooking-blog/users/sign`;
     var queryParams = new HttpParams({
       fromObject: {
-        fastJwt: true,
+        fastJwt: fastSession,
       },
     });
-    return this.http.post(url, { ...body, params: queryParams });
+    return this.http.post(url, body, { params: queryParams });
   }
   registerUser(body: RegistrationBody) {
     var url = `${this.base}/api/cooking-blog/users/registration`;

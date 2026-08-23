@@ -1,0 +1,24 @@
+.footer {
+  display: flex;
+  justify-content: center;
+}
+
+.footer-container {
+  display: flex;
+  color: var(--app-gray);
+  padding: 2rem 2rem;
+}
+
+.footer-container .short-description {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-right: 1rem;
+}
+
+.footer-container .links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+}

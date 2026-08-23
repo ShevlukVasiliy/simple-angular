@@ -1,0 +1,31 @@
+.header {
+  padding: 2rem 2rem;
+}
+
+.header-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+}
+
+.logo {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.links {
+  display: flex;
+  gap: 1rem;
+  font-size: var(--font-size-s);
+  font-weight: var(--font-weight-medium);
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}

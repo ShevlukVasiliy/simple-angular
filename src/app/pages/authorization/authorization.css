@@ -1,6 +1,6 @@
 .container {
   width: 100%;
-  height: 100dvh;
+  height: calc(100dvh - 4rem - 1.5rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -104,4 +104,8 @@ a {
   cursor: pointer;
   font-size: var(--font-size-s);
   font-weight: var(--font-weight-medium);
+}
+
+.error-block {
+  color: red;
 }
