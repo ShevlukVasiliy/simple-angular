@@ -1,14 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/cdk/overlay-prebuilt.css';
 
-body {
+*,
+input::placeholder,
+textarea::placeholder,
+button,
+select,
+option {
   font-family: 'Inter', sans-serif;
+}
+
+body {
+  width: 100%;
+  overflow-x: hidden;
 }
 
 :root {
   font-size: 1em;
   box-sizing: border-box;
-
   /* font */
   /* size */
   --font-size-xs: 14px;
@@ -20,8 +29,10 @@ body {
   /* weight */
   --font-weight-normal: 400;
   --font-weight-medium: 500;
-  --font-weight-bold: 600;
+  --font-weight-semibold: 600;
+  --font-weight-700: 600;
   --font-weight-extrabold: 800;
+  --font-weight-bold: 900;
 
   /* colors */
   --app-blue: #e7fafe;

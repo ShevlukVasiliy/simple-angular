@@ -1,0 +1,60 @@
+.recipe {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 34px;
+  overflow: hidden;
+}
+
+.recipe.blue {
+  background: linear-gradient(180deg, #e7f9fd00 0%, #e7f9fd 100%);
+}
+
+.recipe-image {
+  border-radius: 34px;
+  position: relative;
+}
+.recipe-image.margin {
+  margin-bottom: 1rem;
+}
+
+.recipe-image button {
+  position: absolute;
+  z-index: 100;
+  right: 10px;
+  top: 10px;
+  border: none;
+  background: none;
+}
+
+.content {
+  padding-inline: 1rem;
+  padding-bottom: 1.3rem;
+}
+
+.content .title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+}
+.content .title.margin {
+  margin-bottom: 1rem;
+}
+.content .title.large {
+  font-size: var(--font-size-lg);
+}
+
+.content .bottom-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+}
+
+.bottom-line p {
+  display: flex;
+  align-items: center;
+}
+
+img {
+  max-width: 100%;
+  width: 100%;
+  object-fit: contain;
+}

@@ -1,10 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { BaseLayout } from '../../layout/base-layout/base-layout';
+import { Slider } from '../../uikit/components/slider/slider';
+import { RecipeCard } from '../../uikit/components/recipe-card/recipe-card';
+import { Divider } from '../../uikit/divider/divider';
 
 @Component({
   selector: 'app-home',
-  imports: [BaseLayout],
+  imports: [BaseLayout, Slider, RecipeCard, Divider],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

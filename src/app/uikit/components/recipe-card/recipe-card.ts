@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-recipe-card',
-  imports: [],
+  imports: [NgClass],
   templateUrl: './recipe-card.html',
   styleUrl: './recipe-card.css',
 })
-export class RecipeCard {}
+export class RecipeCard {
+  @Input() mode: 'blue' | 'basic' = 'basic';
+  @Input() size: 'sm' | 'lg' = 'sm';
+}
