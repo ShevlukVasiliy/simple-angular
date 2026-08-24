@@ -1,1 +1,14 @@
-<app-base-layout><p>recipes works!</p></app-base-layout>
+<app-base-layout>
+  <div class="container">
+    <h1>Все рецепты на платформе</h1>
+    <div class='recipes'>
+    @if (recipes().length === 0) {
+      <p>Загрузка...</p>
+    } @else {
+      @for (recipe of recipes(); track recipe) {
+        <app-recipe-card [title]='recipe.title' [timeCooking]="recipe.timeCooking" [imageUrl]="recipe.image" [tags]="recipe.tags"></app-recipe-card>
+      }
+    }
+    </div>
+  </div>
+</app-base-layout>

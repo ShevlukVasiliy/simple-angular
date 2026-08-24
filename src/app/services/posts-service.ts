@@ -25,11 +25,15 @@ export class PostsService {
   }
   getPosts(count?: number) {
     var url = `${this.base}/api/cooking-blog/posts`;
-    var queryParams = new HttpParams({
-      fromObject: {
-        filter: String(count),
-      },
-    });
+    var queryParams = {};
+
+    if (count) {
+      queryParams = new HttpParams({
+        fromObject: {
+          filter: String(count),
+        },
+      });
+    }
 
     return this.http.get(url, {
       params: queryParams,

@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  padding: 4rem 1rem;
+}
+.title {
+  width: 100%;
+  font-size: var(--font-size-lg);
+  text-align: center;
+}
+.recipes {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(4, 280px);
+  gap: 1rem;
+}

@@ -1,4 +1,6 @@
-export interface GetPostsResponse {
+export type GetPostsResponse = Post[];
+
+export interface Post {
   id: string;
   body: string;
   title: string;
