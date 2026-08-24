@@ -1,1 +1,506 @@
-<app-base-layout><p>create-recipe works!</p></app-base-layout>
+<app-base-layout>
+  @if (toast(); as t) {
+    <div class="toast-card">
+      <div class="toast-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="#EF4444" stroke-width="2" />
+          <path d="M12 8V12M12 16H12.01" stroke="#EF4444" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <div class="toast-body">
+        <div class="toast-title">{{ t.title }}</div>
+        <div class="toast-desc">{{ t.description }}</div>
+      </div>
+
+      <button type="button" class="toast-close-btn" (click)="closeToast()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  }
+
+  <div class="container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="recipe-form">
+      <h1 class="margin">Создание рецепта</h1>
+
+      <section class="form-section">
+        <h2 class="section-title">Основная информация</h2>
+
+        <div class="form-field">
+          <label for="recipe-title">Название рецепта</label>
+          <div class="input-control-group">
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="recipe-title"
+                formControlName="title"
+                [class.error]="form.controls.title.invalid && form.controls.title.touched"
+              />
+              <svg
+                class="exl-mark"
+                [class.hide]="form.controls.title.valid || !form.controls.title.touched"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z"
+                  fill="#EF4444"
+                />
+              </svg>
+            </div>
+            @if (form.controls.title.touched) {
+              @if (form.controls.title.hasError('required')) {
+                <div class="error-block">Это поле обязательное</div>
+              }
+              @if (form.controls.title.hasError('minlength')) {
+                <div class="error-block">Минимальная длина — 3 символа</div>
+              }
+            }
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="recipe-description">Краткое описание</label>
+          <div class="input-control-group">
+            <div class="input-wrapper">
+              <textarea
+                id="recipe-description"
+                rows="4"
+                formControlName="description"
+                [class.error]="form.controls.description.invalid && form.controls.description.touched"
+              ></textarea>
+              <svg
+                class="exl-mark"
+                [class.hide]="form.controls.description.valid || !form.controls.description.touched"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z"
+                  fill="#EF4444"
+                />
+              </svg>
+            </div>
+            <small class="field-hint">Опишите о чем ваш рецепт</small>
+            @if (form.controls.description.touched) {
+              @if (form.controls.description.hasError('required')) {
+                <div class="error-block">Это поле обязательное</div>
+              }
+              @if (form.controls.description.hasError('minlength')) {
+                <div class="error-block">Минимальная длина — 10 символов</div>
+              }
+            }
+          </div>
+        </div>
+      </section>
+
+      <app-divider></app-divider>
+
+      <section class="form-section">
+        <h2 class="section-title">Дополнительная информация</h2>
+
+        <div class="form-field">
+          <label for="category">Категория</label>
+          <div class="input-control-group">
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="category"
+                formControlName="category"
+                [class.error]="form.controls.category.invalid && form.controls.category.touched"
+              />
+              <svg
+                class="exl-mark"
+                [class.hide]="form.controls.category.valid || !form.controls.category.touched"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z"
+                  fill="#EF4444"
+                />
+              </svg>
+            </div>
+            @if (form.controls.category.hasError('required') && form.controls.category.touched) {
+              <div class="error-block">Это поле обязательное</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="cooking-time">Время приготовления</label>
+          <div class="input-control-group">
+            <div class="input-wrapper">
+              <input
+                type="text"
+                id="cooking-time"
+                formControlName="cookingTime"
+                [class.error]="form.controls.cookingTime.invalid && form.controls.cookingTime.touched"
+              />
+              <svg
+                class="exl-mark"
+                [class.hide]="form.controls.cookingTime.valid || !form.controls.cookingTime.touched"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z"
+                  fill="#EF4444"
+                />
+              </svg>
+            </div>
+            @if (form.controls.cookingTime.hasError('required') && form.controls.cookingTime.touched) {
+              <div class="error-block">Это поле обязательное</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="proteins">Белки</label>
+          <div class="input-control-group">
+            <div class="input-wrapper">
+              <input
+                type="number"
+                id="proteins"
+                formControlName="proteins"
+                [class.error]="form.controls.proteins.invalid && form.controls.proteins.touched"
+              />
+              <svg
+                class="exl-mark"
+                [class.hide]="form.controls.proteins.valid || !form.controls.proteins.touched"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z"
+                  fill="#EF4444"
+                />
+              </svg>
+            </div>
+            @if (form.controls.proteins.hasError('min') && form.controls.proteins.touched) {
+              <div class="error-block">Значение не может быть отрицательным</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="fats">Жиры</label>
+          <div class="input-control-group">
+            <div class="input-wrapper">
+              <input
+                type="number"
+                id="fats"
+                formControlName="fats"
+                [class.error]="form.controls.fats.invalid && form.controls.fats.touched"
+              />
+              <svg
+                class="exl-mark"
+                [class.hide]="form.controls.fats.valid || !form.controls.fats.touched"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z"
+                  fill="#EF4444"
+                />
+              </svg>
+            </div>
+            @if (form.controls.fats.hasError('min') && form.controls.fats.touched) {
+              <div class="error-block">Значение не может быть отрицательным</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="carbs">Углеводы</label>
+          <div class="input-control-group">
+            <div class="input-wrapper">
+              <input
+                type="number"
+                id="carbs"
+                formControlName="carbs"
+                [class.error]="form.controls.carbs.invalid && form.controls.carbs.touched"
+              />
+              <svg
+                class="exl-mark"
+                [class.hide]="form.controls.carbs.valid || !form.controls.carbs.touched"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z"
+                  fill="#EF4444"
+                />
+              </svg>
+            </div>
+            @if (form.controls.carbs.hasError('min') && form.controls.carbs.touched) {
+              <div class="error-block">Значение не может быть отрицательным</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="calories">Калории</label>
+          <div class="input-control-group">
+            <div class="input-wrapper">
+              <input
+                type="number"
+                id="calories"
+                formControlName="calories"
+                [class.error]="form.controls.calories.invalid && form.controls.calories.touched"
+              />
+              <svg
+                class="exl-mark"
+                [class.hide]="form.controls.calories.valid || !form.controls.calories.touched"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z"
+                  fill="#EF4444"
+                />
+              </svg>
+            </div>
+            @if (form.controls.calories.hasError('min') && form.controls.calories.touched) {
+              <div class="error-block">Значение не может быть отрицательным</div>
+            }
+          </div>
+        </div>
+      </section>
+
+      <app-divider></app-divider>
+
+      <section class="form-section" formArrayName="steps">
+        <h2 class="section-title">Детальная информация</h2>
+        <p class="section-subtitle">Детально опишите шаг вашего рецепта</p>
+
+        @for (stepGroup of steps.controls; track stepGroup; let i = $index) {
+          <div [formGroupName]="i" class="dynamic-group">
+            <div class="form-field">
+              <label [for]="'step-action-' + i">Краткое действие</label>
+              <div class="input-control-group">
+                <div class="input-wrapper">
+                  <input
+                    type="text"
+                    [id]="'step-action-' + i"
+                    formControlName="stepAction"
+                    placeholder="Разогреть сковородку"
+                    [class.error]="stepGroup.controls.stepAction.invalid && stepGroup.controls.stepAction.touched"
+                  />
+                  <svg
+                    class="exl-mark"
+                    [class.hide]="stepGroup.controls.stepAction.valid || !stepGroup.controls.stepAction.touched"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z"
+                      fill="#EF4444"
+                    />
+                  </svg>
+                </div>
+                @if (stepGroup.controls.stepAction.hasError('required') && stepGroup.controls.stepAction.touched) {
+                  <div class="error-block">Это поле обязательное</div>
+                }
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label [for]="'step-description-' + i">Описание</label>
+              <div class="input-control-group">
+                <div class="input-wrapper">
+                  <textarea
+                    [id]="'step-description-' + i"
+                    rows="4"
+                    formControlName="stepDescription"
+                    placeholder="Разогреть сковородку. Затем положить туда репчатый лук"
+                    [class.error]="stepGroup.controls.stepDescription.invalid && stepGroup.controls.stepDescription.touched"
+                  ></textarea>
+                  <svg
+                    class="exl-mark"
+                    [class.hide]="stepGroup.controls.stepDescription.valid || !stepGroup.controls.stepDescription.touched"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z"
+                      fill="#EF4444"
+                    />
+                  </svg>
+                </div>
+                @if (stepGroup.controls.stepDescription.hasError('required') && stepGroup.controls.stepDescription.touched) {
+                  <div class="error-block">Это поле обязательное</div>
+                }
+              </div>
+            </div>
+
+            @if (steps.length > 1) {
+              <div class="action-row">
+                <button type="button" class="btn-secondary" (click)="removeStep(i)">Удалить шаг</button>
+              </div>
+            }
+          </div>
+        }
+
+        <div>
+          <button type="button" class="btn-primary-sm" (click)="addStep()">Добавить еще</button>
+        </div>
+      </section>
+
+      <app-divider></app-divider>
+
+      <section class="form-section" formArrayName="ingredients">
+        <h2 class="section-title">Ингредиенты</h2>
+
+        @for (ingredientGroup of ingredients.controls; track ingredientGroup; let i = $index) {
+          <div [formGroupName]="i" class="dynamic-group">
+            <div class="form-field">
+              <label [for]="'ingredient-name-' + i">Название ингредиента</label>
+              <div class="input-control-group">
+                <div class="input-wrapper">
+                  <input
+                    type="text"
+                    [id]="'ingredient-name-' + i"
+                    formControlName="name"
+                    [class.error]="ingredientGroup.controls.name.invalid && ingredientGroup.controls.name.touched"
+                  />
+                  <svg
+                    class="exl-mark"
+                    [class.hide]="ingredientGroup.controls.name.valid || !ingredientGroup.controls.name.touched"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z"
+                      fill="#EF4444"
+                    />
+                  </svg>
+                </div>
+                @if (ingredientGroup.controls.name.hasError('required') && ingredientGroup.controls.name.touched) {
+                  <div class="error-block">Это поле обязательное</div>
+                }
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label [for]="'ingredient-desc-' + i">Описание</label>
+              <div class="input-control-group">
+                <div class="input-wrapper">
+                  <input
+                    type="text"
+                    [id]="'ingredient-desc-' + i"
+                    formControlName="description"
+                    [class.error]="ingredientGroup.controls.description.invalid && ingredientGroup.controls.description.touched"
+                  />
+                  <svg
+                    class="exl-mark"
+                    [class.hide]="ingredientGroup.controls.description.valid || !ingredientGroup.controls.description.touched"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14ZM10 5C9.44772 5 9 5.44772 9 6V10C9 10.5523 9.44772 11 10 11C10.5523 11 11 10.5523 11 10V6C11 5.44772 10.5523 5 10 5Z"
+                      fill="#EF4444"
+                    />
+                  </svg>
+                </div>
+                @if (ingredientGroup.controls.description.hasError('required') && ingredientGroup.controls.description.touched) {
+                  <div class="error-block">Это поле обязательное</div>
+                }
+              </div>
+            </div>
+
+            @if (ingredients.length > 1) {
+              <div class="action-row">
+                <button type="button" class="btn-secondary" (click)="removeIngredient(i)">Удалить ингредиент</button>
+              </div>
+            }
+          </div>
+        }
+
+        <div>
+          <button type="button" class="btn-primary-sm" (click)="addIngredient()">Добавить еще</button>
+        </div>
+      </section>
+
+      <div class="submit-wrapper">
+        @if (toast(); as t) {
+          <div class="form-bottom-error">
+            <strong>{{ t.title }}:</strong> {{ t.description }}
+          </div>
+        }
+
+        <button [disabled]="form.invalid || isSubmitting()" type="submit" class="submit-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+          {{ isSubmitting() ? 'Отправка...' : 'Отправить рецепт' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</app-base-layout>

@@ -1,11 +1,12 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BaseLayout } from '../../layout/base-layout/base-layout';
 import { Divider } from '../../uikit/divider/divider';
 import { PostsService } from '../../services/posts-service';
-import { CreatePostBody } from '../../interface/posts/create-post';
+import { UpdatePostBody } from '../../interface/posts/update-post';
+import { GetPost } from '../../interface/posts/get-post';
 
 export interface StepForm {
   stepAction: FormControl<string>;
@@ -23,17 +24,21 @@ export interface ToastInfo {
 }
 
 @Component({
-  selector: 'app-create-recipe',
+  selector: 'app-edit-recipe',
   imports: [BaseLayout, Divider, ReactiveFormsModule],
-  templateUrl: './create-recipe.html',
-  styleUrl: './create-recipe.css',
+  templateUrl: './edit-recipe.html',
+  styleUrl: './edit-recipe.css',
 })
-export class CreateRecipe {
+export class EditRecipe implements OnInit {
   private postsService = inject(PostsService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   public toast = signal<ToastInfo | null>(null);
   public isSubmitting = signal<boolean>(false);
+  public isLoading = signal<boolean>(true);
+
+  private postId: string | null = null;
   private toastTimeoutId: any = null;
 
   public form = new FormGroup({
@@ -58,8 +63,8 @@ export class CreateRecipe {
     carbs: new FormControl<number | null>(null, [Validators.min(0)]),
     calories: new FormControl<number | null>(null, [Validators.min(0)]),
 
-    steps: new FormArray<FormGroup<StepForm>>([this.createStepGroup()]),
-    ingredients: new FormArray<FormGroup<IngredientForm>>([this.createIngredientGroup()]),
+    steps: new FormArray<FormGroup<StepForm>>([]),
+    ingredients: new FormArray<FormGroup<IngredientForm>>([]),
   });
 
   public get steps(): FormArray<FormGroup<StepForm>> {
@@ -70,26 +75,82 @@ export class CreateRecipe {
     return this.form.controls.ingredients;
   }
 
-  public createStepGroup(): FormGroup<StepForm> {
+  public ngOnInit(): void {
+    this.postId = this.route.snapshot.paramMap.get('id');
+    if (this.postId) {
+      this.loadRecipeData(this.postId);
+    } else {
+      this.isLoading.set(false);
+      this.showToast('Ошибка', 'Идентификатор рецепта не найден в адресе URL.');
+    }
+  }
+
+  private loadRecipeData(id: string): void {
+    this.isLoading.set(true);
+    this.postsService.getPost(id).subscribe({
+      next: (recipe) => {
+        this.populateForm(recipe as GetPost);
+        this.isLoading.set(false);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.isLoading.set(false);
+        const errorInfo = this.getErrorDetails(err);
+        this.showToast(errorInfo.title, errorInfo.description);
+      },
+    });
+  }
+
+  private populateForm(recipe: GetPost): void {
+    this.form.patchValue({
+      title: recipe.title,
+      description: recipe.body,
+      category: recipe.tags?.[0] || '',
+      cookingTime: String(recipe.timeCooking || ''),
+      proteins: recipe.foodValue?.proteins ?? null,
+      fats: recipe.foodValue?.fats ?? null,
+      carbs: recipe.foodValue?.carbohydrates ?? null,
+      calories: recipe.foodValue?.calories ?? null,
+    });
+
+    this.steps.clear();
+    if (recipe.cookingSteps && recipe.cookingSteps.length > 0) {
+      recipe.cookingSteps.forEach((step) => {
+        this.steps.push(this.createStepGroup(step.title, step.description));
+      });
+    } else {
+      this.steps.push(this.createStepGroup());
+    }
+
+    this.ingredients.clear();
+    if (recipe.ingredients && recipe.ingredients.length > 0) {
+      recipe.ingredients.forEach((ing) => {
+        this.ingredients.push(this.createIngredientGroup(ing.title, ing.description));
+      });
+    } else {
+      this.ingredients.push(this.createIngredientGroup());
+    }
+  }
+
+  public createStepGroup(action = '', description = ''): FormGroup<StepForm> {
     return new FormGroup<StepForm>({
-      stepAction: new FormControl('', {
+      stepAction: new FormControl(action, {
         nonNullable: true,
         validators: [Validators.required],
       }),
-      stepDescription: new FormControl('', {
+      stepDescription: new FormControl(description, {
         nonNullable: true,
         validators: [Validators.required],
       }),
     });
   }
 
-  public createIngredientGroup(): FormGroup<IngredientForm> {
+  public createIngredientGroup(name = '', description = ''): FormGroup<IngredientForm> {
     return new FormGroup<IngredientForm>({
-      name: new FormControl('', {
+      name: new FormControl(name, {
         nonNullable: true,
         validators: [Validators.required],
       }),
-      description: new FormControl('', {
+      description: new FormControl(description, {
         nonNullable: true,
         validators: [Validators.required],
       }),
@@ -123,6 +184,16 @@ export class CreateRecipe {
     }
   }
 
+  private showToast(title: string, description: string): void {
+    this.toast.set({ title, description });
+    if (this.toastTimeoutId) {
+      clearTimeout(this.toastTimeoutId);
+    }
+    this.toastTimeoutId = setTimeout(() => {
+      this.toast.set(null);
+    }, 5000);
+  }
+
   private getErrorDetails(err: HttpErrorResponse): ToastInfo {
     const backendMessage = err.error?.message || err.error?.error;
 
@@ -145,12 +216,12 @@ export class CreateRecipe {
       case 403:
         return {
           title: 'Доступ запрещен',
-          description: 'У вас нет прав для выполнения этой операции.',
+          description: 'У вас нет прав для редактирования этого рецепта.',
         };
-      case 409:
+      case 404:
         return {
-          title: 'Конфликт данных',
-          description: backendMessage || 'Такой рецепт уже существует.',
+          title: 'Не найдено',
+          description: 'Рецепт не найден.',
         };
       case 422:
         return {
@@ -168,13 +239,13 @@ export class CreateRecipe {
       default:
         return {
           title: 'Произошла ошибка',
-          description: backendMessage || `Не удалось создать рецепт (код ${err.status}).`,
+          description: backendMessage || `Не удалось обновить рецепт (код ${err.status}).`,
         };
     }
   }
 
   public onSubmit(): void {
-    if (this.form.invalid) {
+    if (this.form.invalid || !this.postId) {
       this.form.markAllAsTouched();
       return;
     }
@@ -184,7 +255,7 @@ export class CreateRecipe {
 
     const val = this.form.getRawValue();
 
-    const requestPayload: CreatePostBody = {
+    const requestPayload: UpdatePostBody = {
       title: val.title,
       body: val.description,
       tags: val.category ? [val.category] : [],
@@ -206,7 +277,7 @@ export class CreateRecipe {
       })),
     };
 
-    this.postsService.createPost(requestPayload).subscribe({
+    this.postsService.updatePost(this.postId, requestPayload).subscribe({
       next: () => {
         this.isSubmitting.set(false);
         this.router.navigate(['/']);
@@ -214,14 +285,7 @@ export class CreateRecipe {
       error: (err: HttpErrorResponse) => {
         this.isSubmitting.set(false);
         const errorInfo = this.getErrorDetails(err);
-        this.toast.set(errorInfo);
-
-        if (this.toastTimeoutId) {
-          clearTimeout(this.toastTimeoutId);
-        }
-        this.toastTimeoutId = setTimeout(() => {
-          this.toast.set(null);
-        }, 5000);
+        this.showToast(errorInfo.title, errorInfo.description);
       },
     });
   }

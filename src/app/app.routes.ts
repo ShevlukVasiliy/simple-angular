@@ -11,6 +11,7 @@ import { AdminUsers } from './pages/admin-users/admin-users';
 import { AdminUser } from './pages/admin-user/admin-user';
 import { AdminRecipes } from './pages/admin-recipes/admin-recipes';
 import { AdminRecipe } from './pages/admin-recipe/admin-recipe';
+import { EditRecipe } from './pages/edit-recipe/edit-recipe';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'authorization', component: Authorization },
   { path: 'registration', component: Registration },
   { path: 'create-recipe', component: CreateRecipe },
+  { path: 'recipes/:id/edit', component: EditRecipe },
   { path: 'access-denied', component: AccessDenied },
 
   {
