@@ -3,6 +3,7 @@ import { Title, Meta } from '@angular/platform-browser';
 import { BaseLayout } from '../../layout/base-layout/base-layout';
 import { GetPostsResponse } from '../../interface/posts/get-posts';
 import { PostsService } from '../../services/posts-service';
+import { ToastService } from '../../services/toast-service';
 import { RecipeCard } from '../../uikit/components/recipe-card/recipe-card';
 
 @Component({
@@ -14,6 +15,7 @@ import { RecipeCard } from '../../uikit/components/recipe-card/recipe-card';
 export class Recipes {
   private title = inject(Title);
   private meta = inject(Meta);
+  private toastService = inject(ToastService);
   public recipes = signal<GetPostsResponse>([]);
   public postsService = inject(PostsService);
 
@@ -28,14 +30,15 @@ export class Recipes {
 
     this.postsService.getPosts().subscribe({
       next: (val) => {
-        this.recipes.update(() => val as GetPostsResponse);
+        this.recipes.update(() => val);
       },
-      error: (err) => {
-        console.log(err);
+      error: () => {
         this.notifyAboutError();
       },
     });
   }
 
-  notifyAboutError() {}
+  notifyAboutError() {
+    this.toastService.error('Ошибка загрузки', 'Не удалось получить список рецептов.');
+  }
 }
