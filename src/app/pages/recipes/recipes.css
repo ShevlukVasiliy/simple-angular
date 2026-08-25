@@ -13,6 +13,35 @@
 .recipes {
   display: grid;
   justify-content: center;
-  grid-template-columns: repeat(4, 280px);
+  grid-template-columns: repeat(4, minmax(0, 280px));
   gap: 1rem;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .recipes {
+    grid-template-columns: repeat(3, minmax(0, 280px));
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    gap: 2.5rem;
+    padding: 2.5rem 1rem;
+  }
+
+  .recipes {
+    grid-template-columns: repeat(2, minmax(0, 280px));
+  }
+
+  h1 {
+    font-size: var(--font-size-lg);
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .recipes {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

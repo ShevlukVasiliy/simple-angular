@@ -5,8 +5,8 @@
     @if (recipes().length === 0) {
       <p>Загрузка...</p>
     } @else {
-      @for (recipe of recipes(); track recipe) {
-        <app-recipe-card [title]='recipe.title' [timeCooking]="recipe.timeCooking" [imageUrl]="recipe.image" [tags]="recipe.tags"></app-recipe-card>
+      @for (recipe of recipes(); track recipe.id) {
+        <app-recipe-card [recipe]='recipe'></app-recipe-card>
       }
     }
     </div>
