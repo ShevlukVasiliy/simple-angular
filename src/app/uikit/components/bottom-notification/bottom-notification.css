@@ -1,0 +1,62 @@
+.bottom-notification {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 18px 64px;
+  background-color: #2f2b7a;
+  color: #ffffff;
+  animation: notificationSlideUp 0.4s ease forwards;
+}
+
+.bottom-notification .text {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+}
+
+.bottom-notification .close {
+  position: absolute;
+  right: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.bottom-notification .close:hover {
+  opacity: 1;
+}
+
+@keyframes notificationSlideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .bottom-notification {
+    padding: 14px 48px 14px 16px;
+  }
+
+  .bottom-notification .close {
+    right: 12px;
+  }
+}
