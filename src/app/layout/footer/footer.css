@@ -26,3 +26,39 @@
   align-items: center;
   justify-content: center;
 }
+
+.footer-container .links .icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.links button {
+  border: none;
+  background-color: transparent;
+}
+
+@media (max-width: 900px) {
+  .footer {
+    padding-inline: 1rem;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem 0;
+  }
+
+  .footer-container .short-description {
+    max-width: 100%;
+    padding-right: 0;
+  }
+
+  .footer-container .links {
+    justify-content: flex-start;
+  }
+}
