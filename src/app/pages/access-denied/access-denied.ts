@@ -1,14 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Location } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { BaseLayout } from '../../layout/base-layout/base-layout';
 
 @Component({
   selector: 'app-access-denied',
-  imports: [],
+  imports: [BaseLayout, RouterLink],
   templateUrl: './access-denied.html',
   styleUrl: './access-denied.css',
 })
 export class AccessDenied {
-  constructor(public location: Location) {}
+  private title = inject(Title);
+
+  constructor(public location: Location) {
+    this.title.setTitle('Foodie: Доступ запрещен');
+  }
   goBack(event: Event) {
     event.preventDefault();
     this.location.back();

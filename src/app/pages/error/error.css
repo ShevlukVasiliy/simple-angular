@@ -1,7 +1,6 @@
 main {
   display: flex;
-  max-height: 100dvh;
-  height: 100dvh;
+  min-height: calc(100dvh - 4rem - 1.5rem);
 }
 
 .left {
@@ -62,4 +61,32 @@ a {
   cursor: pointer;
   font-size: var(--font-size-s);
   font-weight: var(--font-weight-medium);
+}
+
+@media (max-width: 900px) {
+  main {
+    flex-direction: column-reverse;
+    min-height: calc(100dvh - 4rem - 1.5rem);
+  }
+
+  .left,
+  .right {
+    width: 100%;
+  }
+
+  .left {
+    padding: 3rem 1.5rem;
+  }
+
+  .right {
+    min-height: 35vh;
+  }
+
+  .block h1 {
+    font-size: var(--font-size-lg);
+  }
+
+  .links {
+    gap: 1rem 0;
+  }
 }
