@@ -5,5 +5,43 @@
       <a routerLink='/'>Главная</a>
       <a routerLink='/recipes'>Каталог рецептов</a>
     </nav>
+
+    <div class='account'>
+      @if (user(); as currentUser) {
+        <a class='create-recipe' routerLink='/create-recipe' aria-label='Создать рецепт'>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 20H8L18.5 9.5C19.0523 8.94772 19.0523 8.05228 18.5 7.5L16.5 5.5C15.9477 4.94772 15.0523 4.94772 14.5 5.5L4 16V20Z" stroke="#111827" stroke-width="1.6" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <button type='button' class='account-button' (click)='toggleMenu()'>
+          @if (avatarUrl) {
+            <img class='avatar' [src]='avatarUrl' [alt]='userName' />
+          } @else {
+            <span class='avatar avatar-placeholder'>{{userInitials}}</span>
+          }
+          <span class='account-info'>
+            <span class='account-name'>{{userName}}</span>
+            <span class='account-role'>{{roleName}}</span>
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        @if (isMenuOpen()) {
+          <div class='dropdown'>
+            <span class='dropdown-title'>Вы вошли как<br /><b>{{currentUser.username}}</b></span>
+            <button type='button' class='dropdown-item'>Настройки аккаунта</button>
+            @if (isAdmin()) {
+              <a class='dropdown-item' routerLink='/admin/users' (click)='toggleMenu()'>Администрирование</a>
+            }
+            <button type='button' class='dropdown-item logout' (click)='logout()'>Выход</button>
+          </div>
+        }
+      } @else {
+        <a class='sign-button' routerLink='/authorization'>Вход в аккаунт</a>
+      }
+    </div>
   </div>
 </header>

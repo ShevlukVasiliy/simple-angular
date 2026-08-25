@@ -30,3 +30,165 @@ a {
 .links a:hover {
   text-decoration: underline;
 }
+
+.account {
+  position: relative;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.create-recipe {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 6px 12px 6px 6px;
+  border: none;
+  border-radius: 999px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.account-button:hover {
+  background-color: #f9fafb;
+}
+
+.account .avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #f3f4f6;
+}
+
+.avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--app-blue);
+  color: var(--app-purple);
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.account-name {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.account-role {
+  font-size: 12px;
+  color: var(--app-gray);
+}
+
+.sign-button {
+  padding: 10px 22px;
+  border-radius: 6px;
+  background-color: var(--app-purple);
+  color: white;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  padding: 8px 0;
+  border: 1px #f3f4f6 solid;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-title {
+  padding: 12px 16px;
+  border-bottom: 1px #f3f4f6 solid;
+  font-size: var(--font-size-xs);
+  line-height: 1.5;
+  color: #374151;
+}
+
+.dropdown-item {
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  font-size: var(--font-size-xs);
+  text-align: left;
+  cursor: pointer;
+  color: black;
+}
+
+.dropdown-item:hover {
+  background-color: #f9fafb;
+  text-decoration: none;
+}
+
+.dropdown-item.logout {
+  border-top: 1px #f3f4f6 solid;
+  color: #dc2626;
+}
+
+.dropdown-item {
+  text-decoration: none;
+}
+
+@media (max-width: 1024px) {
+  .header {
+    padding: 1.25rem 1rem;
+  }
+
+  .header-container {
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+  }
+
+  .links {
+    justify-self: center;
+  }
+
+  .account-info {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-container {
+    grid-template-columns: 1fr auto;
+    justify-items: start;
+    row-gap: 1rem;
+  }
+
+  .links {
+    order: 3;
+    grid-column: 1 / -1;
+    justify-self: start;
+    gap: 1.25rem;
+  }
+
+  .account {
+    gap: 0.75rem;
+  }
+
+  .sign-button {
+    padding: 8px 16px;
+  }
+}
