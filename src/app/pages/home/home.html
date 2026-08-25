@@ -1,6 +1,6 @@
 <app-base-layout>
   <div class="container">
-    <app-slider></app-slider>
+    <app-slider [recipes]='sliderRecipes()'></app-slider>
     <!--
       Лучшие рецепты
     -->
@@ -8,11 +8,17 @@
       <h2 class='margin'>Лучшие рецепты</h2>
       <p class='margin'>На нашем сайте вы найдете лучшие рецепты, которые помогут вам создавать великолепные блюда и порадовать своих близких и гостей своим кулинарным мастерством.</p>
       <div class='recipes margin'>
-        <app-recipe-card [size]='"lg"' [mode]='"blue"'></app-recipe-card>
-        <app-recipe-card [size]='"lg"' [mode]='"blue"'></app-recipe-card>
-        <app-recipe-card [size]='"lg"' [mode] ='"blue"'></app-recipe-card>
+        @if (isLoading()) {
+          <p class='loading'>Загрузка...</p>
+        } @else {
+          @for (recipe of bestRecipes(); track recipe.id) {
+            <app-recipe-card [size]='"lg"' [mode]='"blue"' [recipe]='recipe'></app-recipe-card>
+          }
+        }
       </div>
-      <button>Посмотреть еще</button>
+      @if (canShowMore()) {
+        <button type='button' (click)='showMore()'>Посмотреть еще</button>
+      }
     </section>
 
     <app-divider></app-divider>
@@ -26,10 +32,13 @@
         <p>Простые пошаговые инструкции и проверенные сочетания продуктов, чтобы готовить дома с удовольствием каждый день.</p>
       </div>
       <div class='recipes margin'>
-        <app-recipe-card mode='basic'></app-recipe-card>
-        <app-recipe-card mode='basic'></app-recipe-card>
-        <app-recipe-card mode='basic'></app-recipe-card>
-        <app-recipe-card mode='basic'></app-recipe-card>
+        @if (isLoading()) {
+          <p class='loading'>Загрузка...</p>
+        } @else {
+          @for (recipe of tastyRecipes(); track recipe.id) {
+            <app-recipe-card mode='basic' [recipe]='recipe'></app-recipe-card>
+          }
+        }
       </div>
     </section>
 
@@ -103,8 +112,13 @@
         </p>
       </div>
       <div class='form'>
-        <input placeholder='Введите ваш email...' />
-        <button>
+        <div class='field'>
+          <input type='email' placeholder='Введите ваш email...' [formControl]='email' />
+          @if (email.touched && email.invalid) {
+            <span class='field-error'>Введите корректный email</span>
+          }
+        </div>
+        <button type='button' [disabled]='email.invalid' (click)='subscribe()'>
           Подписаться
         </button>
       </div>

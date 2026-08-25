@@ -24,7 +24,8 @@
 }
 
 .best-recieps p {
-  width: 706px;
+  width: 100%;
+  max-width: 706px;
   text-align: center;
   color: #606060;
   font-size: var(--font-size-s);
@@ -37,7 +38,7 @@
 
 .best-recieps .recipes {
   display: grid;
-  grid-template-columns: repeat(3, 400px);
+  grid-template-columns: repeat(3, minmax(0, 400px));
   gap: 40px;
 }
 
@@ -80,7 +81,8 @@
 }
 
 .try-section .header p {
-  width: 620px;
+  width: 100%;
+  max-width: 620px;
   color: #606060;
   font-size: var(--font-size-s);
   font-weight: var(--font-weight-regular);
@@ -89,7 +91,7 @@
 
 .try-section .recipes {
   display: grid;
-  grid-template-columns: repeat(4, 290px);
+  grid-template-columns: repeat(4, minmax(0, 290px));
   gap: 40px;
 }
 
@@ -125,7 +127,7 @@
 
 .position-section .positions {
   display: grid;
-  grid-template-columns: repeat(4, 280px);
+  grid-template-columns: repeat(4, minmax(0, 280px));
   gap: 2rem;
   align-items: center;
   justify-content: center;
@@ -210,4 +212,123 @@
   border: none;
   color: white;
   background-color: var(--app-purple);
+}
+
+.loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--app-gray);
+  font-size: var(--font-size-s);
+}
+
+.mailing-section .form .field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mailing-section .form .field-error {
+  font-size: 12px;
+  color: #dc2626;
+}
+
+.mailing-section .form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1200px) {
+  .best-recieps .recipes {
+    grid-template-columns: repeat(2, minmax(0, 400px));
+  }
+
+  .try-section .recipes {
+    grid-template-columns: repeat(3, minmax(0, 290px));
+  }
+
+  .position-section .positions {
+    grid-template-columns: repeat(2, minmax(0, 280px));
+  }
+
+  .position-section {
+    margin: 0 2rem;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    gap: 3rem;
+    margin-block: 3rem;
+  }
+
+  .best-recieps h2,
+  .try-section .header h2 {
+    font-size: var(--font-size-xl);
+  }
+
+  .best-recieps p.margin {
+    margin-bottom: 3rem;
+  }
+
+  .best-recieps .recipes.margin,
+  .try-section .recipes.margin {
+    margin-bottom: 3rem;
+  }
+
+  .try-section .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .try-section .header.margin {
+    margin-bottom: 2.5rem;
+  }
+
+  .try-section .recipes {
+    grid-template-columns: repeat(2, minmax(0, 290px));
+  }
+
+  .mailing-section {
+    flex-direction: column;
+    padding: 40px 24px;
+    width: calc(100% - 2rem);
+  }
+
+  .mailing-section .form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    gap: 2.5rem;
+    margin-block: 2rem;
+  }
+
+  .best-recieps .recipes,
+  .try-section .recipes,
+  .position-section .positions {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+    padding-inline: 1rem;
+  }
+
+  .best-recieps h2,
+  .try-section .header h2,
+  .position-section h2 {
+    font-size: var(--font-size-lg);
+  }
+
+  .best-recieps p,
+  .try-section .header p {
+    padding-inline: 1rem;
+  }
+
+  .position-section {
+    margin: 0 1rem;
+  }
 }
