@@ -10,27 +10,27 @@ import { ErrorPage } from './pages/error/error';
 import { AdminUsers } from './pages/admin-users/admin-users';
 import { AdminUser } from './pages/admin-user/admin-user';
 import { AdminRecipes } from './pages/admin-recipes/admin-recipes';
-import { AdminRecipe } from './pages/admin-recipe/admin-recipe';
 import { EditRecipe } from './pages/edit-recipe/edit-recipe';
+import { adminGuard, authGuard, guestGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
   { path: 'recipes', component: Recipes },
   { path: 'recipes/:id', component: Recipe },
-  { path: 'authorization', component: Authorization },
-  { path: 'registration', component: Registration },
-  { path: 'create-recipe', component: CreateRecipe },
-  { path: 'recipes/:id/edit', component: EditRecipe },
+  { path: 'authorization', component: Authorization, canActivate: [guestGuard] },
+  { path: 'registration', component: Registration, canActivate: [guestGuard] },
+  { path: 'create-recipe', component: CreateRecipe, canActivate: [authGuard] },
   { path: 'access-denied', component: AccessDenied },
 
   {
     path: 'admin',
+    canActivate: [adminGuard],
     children: [
       { path: '', redirectTo: 'users', pathMatch: 'full' },
       { path: 'users', component: AdminUsers },
       { path: 'users/:id', component: AdminUser },
       { path: 'recipes', component: AdminRecipes },
-      { path: 'recipes/:id', component: AdminRecipe },
+      { path: 'recipes/:id', component: EditRecipe },
     ],
   },
 
