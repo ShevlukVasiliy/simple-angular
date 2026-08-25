@@ -1,1 +1,92 @@
-<app-base-layout><p>admin-user works!</p></app-base-layout>
+<app-base-layout>
+  <div class='container'>
+    @if (isLoading()) {
+      <p class='loading'>Загрузка...</p>
+    } @else if (user(); as currentUser) {
+      <section class='head'>
+        <div class='profile'>
+          @if (avatarUrl(currentUser.avatar)) {
+            <img class='avatar' [src]='avatarUrl(currentUser.avatar)' [alt]='userName()' />
+          } @else {
+            <span class='avatar avatar-placeholder'>{{userInitials()}}</span>
+          }
+          <div class='profile-info'>
+            <div class='profile-name'>
+              <h1>{{userName()}}</h1>
+              <span class='role-badge'>{{roleName()}}</span>
+            </div>
+            <p class='muted'>Создан {{createdOn()}}</p>
+            <p class='muted'>{{currentUser.username}}</p>
+          </div>
+        </div>
+
+        @if (currentUser.role !== 'admin') {
+          <button type='button' class='delete-button' (click)='confirmDelete()'>Удалить</button>
+        }
+      </section>
+
+      <section class='stats'>
+        <div class='stat'>
+          <span class='stat-label'>Всего рецептов</span>
+          <b class='stat-value'>{{currentUser.posts.length}}</b>
+        </div>
+        <div class='stat'>
+          <span class='stat-label'>Всего комментариев</span>
+          <b class='stat-value'>{{currentUser.comments.length}}</b>
+        </div>
+        <div class='stat'>
+          <span class='stat-label'>Статус</span>
+          <b class='stat-value'>Активен</b>
+        </div>
+      </section>
+
+      <section class='recipes-section'>
+        <h2>Созданные рецепты</h2>
+
+        @if (recipes().length === 0) {
+          <p class='muted'>Пользователь еще не создал ни одного рецепта</p>
+        } @else {
+          <div class='recipes'>
+            @for (recipe of recipes(); track recipe.id) {
+              <div class='recipe'>
+                @if (imageUrl(recipe.image)) {
+                  <img [src]='imageUrl(recipe.image)' [alt]='recipe.title' />
+                } @else {
+                  <span class='recipe-image-placeholder'></span>
+                }
+                <span class='recipe-title'>{{recipe.title}}</span>
+                <span class='muted'>Создан: {{recipeDate(recipe.createdOn)}}</span>
+              </div>
+            }
+          </div>
+        }
+      </section>
+
+      <section class='account-card'>
+        <h2>Информация аккаунта</h2>
+        <div class='account-row'>
+          <span class='muted'>Фамилия</span>
+          <span>{{currentUser.lastName}}</span>
+        </div>
+        <div class='account-row'>
+          <span class='muted'>Имя</span>
+          <span>{{currentUser.firstName}}</span>
+        </div>
+        <div class='account-row'>
+          <span class='muted'>Отчество</span>
+          <span>{{currentUser.middleName}}</span>
+        </div>
+        <div class='account-row'>
+          <span class='muted'>Логин</span>
+          <span>{{currentUser.username}}</span>
+        </div>
+        <div class='account-row'>
+          <span class='muted'>Последний раз заходил</span>
+          <span>{{lastEntry()}}</span>
+        </div>
+      </section>
+    } @else {
+      <p class='loading'>Пользователь не найден</p>
+    }
+  </div>
+</app-base-layout>

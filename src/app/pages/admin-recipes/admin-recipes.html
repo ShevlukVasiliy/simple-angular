@@ -1,1 +1,52 @@
-<app-base-layout><p>admin-recipes works!</p></app-base-layout>
+<app-base-layout>
+  <div class='container'>
+    <h1>Панель администрирования</h1>
+
+    <nav class='tabs'>
+      <a class='tab' routerLink='/admin/users'>Управление пользователями</a>
+      <a class='tab active' routerLink='/admin/recipes'>Управление рецептами</a>
+    </nav>
+
+    @if (isLoading()) {
+      <p class='loading'>Загрузка...</p>
+    } @else {
+      <div class='table-card'>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Название рецепта</th>
+              <th>Краткое описание</th>
+              <th>ID рецепта</th>
+              <th>Категория</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (recipe of recipes(); track recipe.id) {
+              <tr>
+                <td class='name'>{{recipe.title}}</td>
+                <td class='muted'>{{shortBody(recipe.body)}}</td>
+                <td class='muted'>{{recipe.id}}</td>
+                <td class='muted'>{{recipe.tags[0]}}</td>
+                <td>
+                  <div class='row-actions'>
+                    <button type='button' class='icon-button' (click)='editRecipe(recipe.id)' aria-label='Редактировать'>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 20H8L18.5 9.5C19.0523 8.94772 19.0523 8.05228 18.5 7.5L16.5 5.5C15.9477 4.94772 15.0523 4.94772 14.5 5.5L4 16V20Z" stroke="#F59E0B" stroke-width="1.6" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                    <button type='button' class='icon-button' (click)='confirmDelete(recipe)' aria-label='Удалить'>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 7H19M10 11V17M14 11V17M6 7L7 20H17L18 7M9 7V4H15V7" stroke="#DC2626" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</app-base-layout>

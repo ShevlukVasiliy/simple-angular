@@ -1,0 +1,156 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 4rem 1rem 6rem;
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-extrabold);
+}
+
+.tabs {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  border-bottom: 1px #e5e7eb solid;
+}
+
+.tab {
+  padding-bottom: 12px;
+  border-bottom: 2px transparent solid;
+  color: var(--app-gray);
+  font-size: var(--font-size-s);
+  text-decoration: none;
+}
+
+.tab.active {
+  border-bottom-color: var(--app-purple);
+  color: var(--app-purple);
+}
+
+.loading {
+  color: var(--app-gray);
+}
+
+.table-card {
+  border: 1px #f3f4f6 solid;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: 16px 24px;
+  background-color: #f9fafb;
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  color: var(--app-gray);
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.table td {
+  padding: 16px 24px;
+  border-top: 1px #f3f4f6 solid;
+  font-size: var(--font-size-xs);
+  vertical-align: middle;
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #f3f4f6;
+}
+
+.avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--app-blue);
+  color: var(--app-purple);
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.user-name {
+  font-weight: var(--font-weight-medium);
+}
+
+.user-login {
+  color: var(--app-gray);
+}
+
+.status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background-color: #d1fae5;
+  color: #065f46;
+  font-size: 12px;
+}
+
+.role {
+  color: #374151;
+}
+
+.row-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 2.5rem 1rem 4rem;
+  }
+
+  h1 {
+    font-size: var(--font-size-lg);
+  }
+
+  .tabs {
+    margin-bottom: 2rem;
+    gap: 1.25rem;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .table-card {
+    overflow-x: auto;
+  }
+
+  .table {
+    min-width: 720px;
+  }
+}

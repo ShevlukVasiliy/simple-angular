@@ -1,1 +1,64 @@
-<app-base-layout><p>admin-users works!</p></app-base-layout>
+<app-base-layout>
+  <div class='container'>
+    <h1>Панель администрирования</h1>
+
+    <nav class='tabs'>
+      <a class='tab active' routerLink='/admin/users'>Управление пользователями</a>
+      <a class='tab' routerLink='/admin/recipes'>Управление рецептами</a>
+    </nav>
+
+    @if (isLoading()) {
+      <p class='loading'>Загрузка...</p>
+    } @else {
+      <div class='table-card'>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>Наименование</th>
+              <th>Статус</th>
+              <th>Роль</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of users(); track user.id) {
+              <tr>
+                <td>
+                  <div class='user-cell'>
+                    @if (avatarUrl(user.avatar)) {
+                      <img class='avatar' [src]='avatarUrl(user.avatar)' [alt]='user.username' />
+                    } @else {
+                      <span class='avatar avatar-placeholder'>{{userInitials(user.firstName, user.lastName)}}</span>
+                    }
+                    <div class='user-info'>
+                      <span class='user-name'>{{user.firstName}} {{user.lastName}}</span>
+                      <span class='user-login'>{{user.username}}</span>
+                    </div>
+                  </div>
+                </td>
+                <td><span class='status'>Активен</span></td>
+                <td class='role'>{{roleName(user.role)}}</td>
+                <td>
+                  @if (user.role !== 'admin') {
+                  <div class='row-actions'>
+                    <button type='button' class='icon-button edit' (click)='openUser(user.id)' aria-label='Редактировать'>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 20H8L18.5 9.5C19.0523 8.94772 19.0523 8.05228 18.5 7.5L16.5 5.5C15.9477 4.94772 15.0523 4.94772 14.5 5.5L4 16V20Z" stroke="#3A3395" stroke-width="1.6" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                    <button type='button' class='icon-button delete' (click)='confirmDelete(user.id, user.username)' aria-label='Удалить'>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 7H19M10 11V17M14 11V17M6 7L7 20H17L18 7M9 7V4H15V7" stroke="#DC2626" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</app-base-layout>
