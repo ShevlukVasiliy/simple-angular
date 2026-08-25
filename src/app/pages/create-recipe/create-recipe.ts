@@ -1,10 +1,13 @@
-import { Component, inject, signal } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BaseLayout } from '../../layout/base-layout/base-layout';
 import { Divider } from '../../uikit/divider/divider';
 import { PostsService } from '../../services/posts-service';
+import { ToastService } from '../../services/toast-service';
+import { ToastInfo } from '../../uikit/components/toast/toast.types';
 import { CreatePostBody } from '../../interface/posts/create-post';
 
 export interface StepForm {
@@ -17,24 +20,20 @@ export interface IngredientForm {
   description: FormControl<string>;
 }
 
-export interface ToastInfo {
-  title: string;
-  description: string;
-}
-
 @Component({
   selector: 'app-create-recipe',
   imports: [BaseLayout, Divider, ReactiveFormsModule],
   templateUrl: './create-recipe.html',
   styleUrl: './create-recipe.css',
 })
-export class CreateRecipe {
+export class CreateRecipe implements OnInit {
+  private pageTitle = inject(Title);
   private postsService = inject(PostsService);
   private router = inject(Router);
+  private toastService = inject(ToastService);
 
-  public toast = signal<ToastInfo | null>(null);
+  public formError = signal<string | null>(null);
   public isSubmitting = signal<boolean>(false);
-  private toastTimeoutId: any = null;
 
   public form = new FormGroup({
     title: new FormControl('', {
@@ -61,6 +60,10 @@ export class CreateRecipe {
     steps: new FormArray<FormGroup<StepForm>>([this.createStepGroup()]),
     ingredients: new FormArray<FormGroup<IngredientForm>>([this.createIngredientGroup()]),
   });
+
+  public ngOnInit(): void {
+    this.pageTitle.setTitle('Foodie: Создание рецепта');
+  }
 
   public get steps(): FormArray<FormGroup<StepForm>> {
     return this.form.controls.steps;
@@ -113,13 +116,6 @@ export class CreateRecipe {
   public removeIngredient(index: number): void {
     if (this.ingredients.length > 1) {
       this.ingredients.removeAt(index);
-    }
-  }
-
-  public closeToast(): void {
-    this.toast.set(null);
-    if (this.toastTimeoutId) {
-      clearTimeout(this.toastTimeoutId);
     }
   }
 
@@ -179,7 +175,7 @@ export class CreateRecipe {
       return;
     }
 
-    this.toast.set(null);
+    this.formError.set(null);
     this.isSubmitting.set(true);
 
     const val = this.form.getRawValue();
@@ -209,19 +205,14 @@ export class CreateRecipe {
     this.postsService.createPost(requestPayload).subscribe({
       next: () => {
         this.isSubmitting.set(false);
+        this.toastService.success('Рецепт создан', 'Ваш рецепт успешно опубликован.');
         this.router.navigate(['/']);
       },
       error: (err: HttpErrorResponse) => {
         this.isSubmitting.set(false);
         const errorInfo = this.getErrorDetails(err);
-        this.toast.set(errorInfo);
-
-        if (this.toastTimeoutId) {
-          clearTimeout(this.toastTimeoutId);
-        }
-        this.toastTimeoutId = setTimeout(() => {
-          this.toast.set(null);
-        }, 5000);
+        this.formError.set(`${errorInfo.title}: ${errorInfo.description}`);
+        this.toastService.error(errorInfo.title, errorInfo.description);
       },
     });
   }

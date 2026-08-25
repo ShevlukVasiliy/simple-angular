@@ -1,26 +1,4 @@
 <app-base-layout>
-  @if (toast(); as t) {
-    <div class="toast-card">
-      <div class="toast-icon-wrapper">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="10" stroke="#EF4444" stroke-width="2" />
-          <path d="M12 8V12M12 16H12.01" stroke="#EF4444" stroke-width="2" stroke-linecap="round" />
-        </svg>
-      </div>
-
-      <div class="toast-body">
-        <div class="toast-title">{{ t.title }}</div>
-        <div class="toast-desc">{{ t.description }}</div>
-      </div>
-
-      <button type="button" class="toast-close-btn" (click)="closeToast()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-    </div>
-  }
 
   <div class="container">
     @if (isLoading()) {
@@ -492,10 +470,8 @@
         </section>
 
         <div class="submit-wrapper">
-          @if (toast(); as t) {
-            <div class="form-bottom-error">
-              <strong>{{ t.title }}:</strong> {{ t.description }}
-            </div>
+          @if (formError(); as error) {
+            <div class="form-bottom-error">{{ error }}</div>
           }
 
           <button [disabled]="form.invalid || isSubmitting()" type="submit" class="submit-btn">

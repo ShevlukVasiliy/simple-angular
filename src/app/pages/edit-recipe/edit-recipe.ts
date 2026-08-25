@@ -1,3 +1,4 @@
+import { Title } from '@angular/platform-browser';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -5,6 +6,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { BaseLayout } from '../../layout/base-layout/base-layout';
 import { Divider } from '../../uikit/divider/divider';
 import { PostsService } from '../../services/posts-service';
+import { ToastService } from '../../services/toast-service';
+import { ToastInfo } from '../../uikit/components/toast/toast.types';
 import { UpdatePostBody } from '../../interface/posts/update-post';
 import { GetPost } from '../../interface/posts/get-post';
 
@@ -18,11 +21,6 @@ export interface IngredientForm {
   description: FormControl<string>;
 }
 
-export interface ToastInfo {
-  title: string;
-  description: string;
-}
-
 @Component({
   selector: 'app-edit-recipe',
   imports: [BaseLayout, Divider, ReactiveFormsModule],
@@ -30,16 +28,17 @@ export interface ToastInfo {
   styleUrl: './edit-recipe.css',
 })
 export class EditRecipe implements OnInit {
+  private pageTitle = inject(Title);
   private postsService = inject(PostsService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private toastService = inject(ToastService);
 
-  public toast = signal<ToastInfo | null>(null);
+  public formError = signal<string | null>(null);
   public isSubmitting = signal<boolean>(false);
   public isLoading = signal<boolean>(true);
 
   private postId: string | null = null;
-  private toastTimeoutId: any = null;
 
   public form = new FormGroup({
     title: new FormControl('', {
@@ -76,12 +75,13 @@ export class EditRecipe implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.pageTitle.setTitle('Foodie: Редактирование рецепта');
     this.postId = this.route.snapshot.paramMap.get('id');
     if (this.postId) {
       this.loadRecipeData(this.postId);
     } else {
       this.isLoading.set(false);
-      this.showToast('Ошибка', 'Идентификатор рецепта не найден в адресе URL.');
+      this.toastService.error('Ошибка', 'Идентификатор рецепта не найден в адресе URL.');
     }
   }
 
@@ -89,13 +89,13 @@ export class EditRecipe implements OnInit {
     this.isLoading.set(true);
     this.postsService.getPost(id).subscribe({
       next: (recipe) => {
-        this.populateForm(recipe as GetPost);
+        this.populateForm(recipe);
         this.isLoading.set(false);
       },
       error: (err: HttpErrorResponse) => {
         this.isLoading.set(false);
         const errorInfo = this.getErrorDetails(err);
-        this.showToast(errorInfo.title, errorInfo.description);
+        this.toastService.error(errorInfo.title, errorInfo.description);
       },
     });
   }
@@ -177,23 +177,6 @@ export class EditRecipe implements OnInit {
     }
   }
 
-  public closeToast(): void {
-    this.toast.set(null);
-    if (this.toastTimeoutId) {
-      clearTimeout(this.toastTimeoutId);
-    }
-  }
-
-  private showToast(title: string, description: string): void {
-    this.toast.set({ title, description });
-    if (this.toastTimeoutId) {
-      clearTimeout(this.toastTimeoutId);
-    }
-    this.toastTimeoutId = setTimeout(() => {
-      this.toast.set(null);
-    }, 5000);
-  }
-
   private getErrorDetails(err: HttpErrorResponse): ToastInfo {
     const backendMessage = err.error?.message || err.error?.error;
 
@@ -250,7 +233,7 @@ export class EditRecipe implements OnInit {
       return;
     }
 
-    this.toast.set(null);
+    this.formError.set(null);
     this.isSubmitting.set(true);
 
     const val = this.form.getRawValue();
@@ -280,12 +263,14 @@ export class EditRecipe implements OnInit {
     this.postsService.updatePost(this.postId, requestPayload).subscribe({
       next: () => {
         this.isSubmitting.set(false);
-        this.router.navigate(['/']);
+        this.toastService.success('Рецепт обновлен', 'Изменения успешно сохранены.');
+        this.router.navigate(['/admin/recipes']);
       },
       error: (err: HttpErrorResponse) => {
         this.isSubmitting.set(false);
         const errorInfo = this.getErrorDetails(err);
-        this.showToast(errorInfo.title, errorInfo.description);
+        this.formError.set(`${errorInfo.title}: ${errorInfo.description}`);
+        this.toastService.error(errorInfo.title, errorInfo.description);
       },
     });
   }
