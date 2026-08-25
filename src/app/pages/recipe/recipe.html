@@ -1,1 +1,170 @@
-<app-base-layout><p>recipe works!</p></app-base-layout>
+<app-base-layout>
+  <div class='container'>
+    @if (isLoading()) {
+      <p class='loading'>Загрузка рецепта...</p>
+    } @else if (recipe(); as item) {
+      <section class='recipe-head'>
+        <div class='head-left'>
+          <h1>{{item.title}}</h1>
+
+          <div class='meta'>
+            <div class='author'>
+              @if (imageUrl(item.author.avatar)) {
+                <img class='avatar' [src]='imageUrl(item.author.avatar)' [alt]='authorName()' />
+              } @else {
+                <span class='avatar avatar-placeholder'>{{authorInitials()}}</span>
+              }
+              <div class='author-info'>
+                <span class='author-name'>{{authorName()}}</span>
+                <span class='author-date'>{{createdOn()}}</span>
+              </div>
+            </div>
+
+            <div class='meta-item'>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="9" stroke="#3052CA" stroke-width="2"/>
+                <path d="M12 7V12L15 14" stroke="#3052CA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class='meta-text'>
+                <span class='meta-label'>Время приготовления</span>
+                <span class='meta-value'>{{item.timeCooking}} минут</span>
+              </div>
+            </div>
+
+            @if (item.tags.length > 0) {
+              <div class='meta-item'>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 3V10C5 11.6569 6.34315 13 8 13V21M8 13C9.65685 13 11 11.6569 11 10V3M5 3V8M8 3V8M11 3V8M17 3C15.5 5 15 8.5 15 12V15H19V21" stroke="#208749" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class='meta-text'>
+                  <span class='meta-value'>{{item.tags[0]}}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class='actions'>
+          <button type='button' class='action' (click)='toggleFavorite()'>
+            <span class='action-icon' [class.active]='isFavorite()'>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3L14.7 8.6L21 9.5L16.5 13.8L17.5 20L12 17.1L6.5 20L7.5 13.8L3 9.5L9.3 8.6L12 3Z" [attr.fill]='isFavorite() ? "#3A3395" : "none"' stroke="#3A3395" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class='action-label'>В избранное</span>
+          </button>
+
+          <button type='button' class='action' (click)='print()'>
+            <span class='action-icon'>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 9V3H17V9M7 19H5C4.44772 19 4 18.5523 4 18V10C4 9.44772 4.44772 9 5 9H19C19.5523 9 20 9.44772 20 10V18C20 18.5523 19.5523 19 19 19H17M7 15H17V21H7V15Z" stroke="#3A3395" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class='action-label'>Распечатать</span>
+          </button>
+
+          <button type='button' class='action' (click)='share()'>
+            <span class='action-icon'>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3V15M12 3L8 7M12 3L16 7M5 13V19C5 19.5523 5.44772 20 6 20H18C18.5523 20 19 19.5523 19 19V13" stroke="#3A3395" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class='action-label'>Поделиться</span>
+          </button>
+        </div>
+      </section>
+
+      <section class='preview'>
+        <img class='preview-image' [src]='imageUrl(item.image)' [alt]='item.title' />
+        <app-food-value [foodValue]='item.foodValue'></app-food-value>
+      </section>
+
+      <p class='description'>{{item.body}}</p>
+
+      <section class='details'>
+        <div class='ingredients'>
+          <h2>Ингредиенты</h2>
+          <h3>Что вам пригодиться</h3>
+
+          @for (ingredient of item.ingredients; track $index) {
+            <button type='button' class='check-row' (click)='toggleIngredient($index)'>
+              <span class='check' [class.checked]='checkedIngredients().includes($index)'>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 13L9 17L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class='check-text' [class.done]='checkedIngredients().includes($index)'>
+                {{ingredient.title}}@if (ingredient.description) { — {{ingredient.description}} }
+              </span>
+            </button>
+          }
+        </div>
+
+        <div class='other-recipes'>
+          <h2>Прочие рецепты</h2>
+
+          @for (other of otherRecipes(); track other.id) {
+            <a class='other-recipe' [routerLink]='["/recipes", other.id]'>
+              <img [src]='imageUrl(other.image)' [alt]='other.title' />
+              <div class='other-info'>
+                <span class='other-title'>{{other.title}}</span>
+                <span class='other-author'>От {{other.author.firstName}} {{other.author.lastName}}</span>
+              </div>
+            </a>
+          }
+        </div>
+      </section>
+
+      <section class='steps'>
+        <h2>Шаги приготовления</h2>
+
+        @for (step of item.cookingSteps; track $index) {
+          <div class='step'>
+            <button type='button' class='check-row' (click)='toggleStep($index)'>
+              <span class='check' [class.checked]='checkedSteps().includes($index)'>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 13L9 17L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class='check-text step-title' [class.done]='checkedSteps().includes($index)'>
+                {{$index + 1}}. {{step.title}}
+              </span>
+            </button>
+            <p class='step-description' [class.done]='checkedSteps().includes($index)'>{{step.description}}</p>
+          </div>
+        }
+      </section>
+
+      <section class='may-like'>
+        <h2>Возможно вам понравятся эти рецепты</h2>
+        <div class='recipes'>
+          @for (suggestion of mayLikeRecipes(); track suggestion.id) {
+            <app-recipe-card mode='basic' [recipe]='suggestion'></app-recipe-card>
+          }
+        </div>
+      </section>
+
+      <section class='comments'>
+        <h2>Комментарии</h2>
+
+        @if (item.comments.length === 0) {
+          <p class='empty'>Пока нет ни одного комментария. Будьте первым!</p>
+        } @else {
+          @for (postComment of item.comments; track postComment.id) {
+            <app-comment [comment]='postComment'></app-comment>
+          }
+        }
+
+        <div class='comment-form'>
+          <label for='comment'>Ваш комментарий</label>
+          <textarea id='comment' rows='4' [formControl]='comment' placeholder='Напишите, что вы думаете об этом рецепте'></textarea>
+          <button type='button' class='send' [disabled]='comment.invalid || isCommentSending()' (click)='sendComment()'>
+            {{ isCommentSending() ? 'Отправка...' : 'Отправить' }}
+          </button>
+        </div>
+      </section>
+    } @else {
+      <p class='loading'>Рецепт не найден</p>
+    }
+  </div>
+</app-base-layout>

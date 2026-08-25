@@ -1,1 +1,14 @@
-<p>comment works!</p>
+<div class='comment'>
+  @if (avatarUrl) {
+    <img class='avatar' [src]='avatarUrl' [alt]='userName' />
+  } @else {
+    <span class='avatar avatar-placeholder'>{{userInitials}}</span>
+  }
+  <div class='body'>
+    <div class='head'>
+      <span class='name'>{{userName}}</span>
+      <span class='date'>{{createdOn}}</span>
+    </div>
+    <p class='text'>{{comment.text}}</p>
+  </div>
+</div>
